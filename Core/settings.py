@@ -168,3 +168,11 @@ SIMPLE_JWT = {
 
 
 AUTH_USER_MODEL = "users.NewUser"
+
+#smtp.gtifenix.com 
+#noreaply@gtifeniox.com
+#gtifenix2019
+EMAIL_USE_TSL=True
+EMAIL_HOST = 'smtp.gtifenix.com'
+EMAIL_HOST_USER='noreaply@gtifenix.com'
+EMAIL_HOST_PASSWORD='gtifenix2019'
