@@ -15,19 +15,13 @@ class shootsfired(models.Model):
     createdat = models.DateTimeField()
     updateat = models.DateTimeField()
 
-    
-    def __str__(self):
-        return self.unit + ' ' + self.weapon
+
         
 class unconscious(models.Model):
     unit = models.ForeignKey(md.NewUser, on_delete=models.CASCADE)
     state = models.BooleanField()
     createdat = models.DateTimeField()
     updateat = models.DateTimeField()
-    
-    def __str__(self):
-        return self.unit + ' ' + self.state
-
 class kills(models.Model):
     killer = models.ForeignKey(md.NewUser, on_delete=models.CASCADE)
     #killer = models.TextField(default=0)
@@ -36,18 +30,12 @@ class kills(models.Model):
     distance= models.TextField(default=0)
     createdat = models.DateTimeField()
     updateat = models.DateTimeField()
-    
-    def __str__(self):
-        return self.killer + ' ' + self.weapon
 
 class medic(models.Model):
-    healer = models.ForeignKey(md.NewUser, on_delete=models.CASCADE)
+    healer = models.ForeignKey(md.NewUser, on_delete=models.CASCADE,related_name="medic")
     #healer = models.BooleanField()
     healed= models.TextField()
     hitLocation= models.TextField()
     typeOfHeal= models.TextField()
     createdat = models.DateTimeField()
     updateat = models.DateTimeField()
-    
-    def __str__(self):
-        return self.healer + ' ' + self.typeOfHeal
