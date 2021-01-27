@@ -1,5 +1,6 @@
 from django.db import models
 from users import models  as md
+from django.conf import settings
 from django.utils import timezone
 
 # Create your models here.
@@ -32,7 +33,7 @@ class kills(models.Model):
     updateat = models.DateTimeField()
 
 class medic(models.Model):
-    healer = models.ForeignKey(md.NewUser, on_delete=models.CASCADE,related_name="medic")
+    healer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,related_name="medic")
     #healer = models.BooleanField()
     healed= models.TextField()
     hitLocation= models.TextField()
