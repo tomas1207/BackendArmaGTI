@@ -44,8 +44,8 @@ INSTALLED_APPS = [
     # Local Apps (Your project's apps)
     'users',
     'Arma',
-    'Profile',
-    
+    'Missions',
+
 ]
 
 MIDDLEWARE = [
@@ -135,7 +135,7 @@ STATIC_URL = '/static/'
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    'PAGE_SIZE': 100,
+    'PAGE_SIZE': 1,
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
@@ -175,7 +175,7 @@ AUTH_USER_MODEL = "users.NewUser"
 #smtp.gtifenix.com 
 #noreaply@gtifeniox.com
 #gtifenix2019
-EMAIL_USE_TSL=True
+EMAIL_USE_TSL=False
 EMAIL_HOST = 'smtp.gtifenix.com'
 EMAIL_HOST_USER='noreaply@gtifenix.com'
 EMAIL_HOST_PASSWORD='gtifenix2019'

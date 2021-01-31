@@ -25,21 +25,22 @@ class UserCreator(APIView):
                 current_site = get_current_site(request).domain
                 relativeLink = reverse('emailVerify')
                 linkforactivate = 'http://'+ current_site+relativeLink+'?token='+str(token.access_token)
-                email = mail.EmailMessage(subject="Activate account",body=linkforactivate,to=[json['email']])
+                email = mail.EmailMessage(subject="Activate account",body=linkforactivate,to=[json['email']],from_email='no-reply@gtifenix.com')
                 email.send()
                 return Response(json,status=status.HTTP_201_CREATED)
         return Response(reg_serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 
 
-class VerifyEmail(generics.GenericAPIView):
+class VerifyEmail(APIView):
     def get(self,request):
         token = request.GET.get('token')
         try:
             payload= jwt.decode(token, settings.SECRET_KEY,algorithms="HS256")
             user = nu.objects.get(id=payload['user_id'])
 
-            user.is_verified = True
+            user.is_active = True
             user.save()
+                        
             return Response('Done', status=status.HTTP_200_OK)
         except jwt.ExpiredSignatureError as identifier:
             pass
