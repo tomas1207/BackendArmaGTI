@@ -14,3 +14,21 @@ class medicSerializer(serializers.ModelSerializer):
         
 
 
+class unconsciousSerializer(serializers.ModelSerializer):
+    unit = RegisterNewUser(read_only=True,many=False)
+    mission = missionSerializer(read_only=True,many=False)
+    
+    class Meta:
+        model = unconscious
+        fields ='__all__'
+        
+
+
+class shootsFiredSerializer(serializers.ModelSerializer):
+    unit = RegisterNewUser(read_only=True,many=False)
+    mission = missionSerializer(read_only=True,many=False)
+    
+    class Meta:
+        model = shootsfired
+        fields ='__all__'
+        

@@ -21,8 +21,8 @@ class unconscious(models.Model):
     state = models.BooleanField()
     createdat = models.DateTimeField()
     updateat = models.DateTimeField()
-    
     mission = models.ForeignKey(missions,on_delete=models.CASCADE,related_name="mission_unconscious",null=True)
+
 class kills(models.Model):
     killer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,related_name="killer",to_field='steamID',null=True)
     weapon= models.TextField(default=0)
