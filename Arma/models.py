@@ -1,6 +1,5 @@
 from django.db import models
-from  Missions.models import  missions
-from users import models  as md
+from Missions.models import  missions
 from django.conf import settings
 from django.utils import timezone
 

@@ -1,16 +1,13 @@
-from django.shortcuts import render
+from CoreAppClass.normalEndpoint import endpoints 
 from rest_framework.views import APIView
+from rest_framework.response import Response
 from .models import missions
 from .serializers import missionSerializer
 from rest_framework.permissions import *
-from django.http import JsonResponse
 from rest_framework import status
+from rest_framework.pagination import LimitOffsetPagination
 # Create your views here.
-class MissionStatus(APIView):
+class missionsStatus(APIView,LimitOffsetPagination):
     permission_classes = [IsAuthenticated]
     def get(self,request,format='json'):
-        medics = missions.objects.all()
-
-        finalData = missionSerializer(medics, many=True)
-        return JsonResponse(finalData.data,status=status.HTTP_200_OK,safe=False)
-        
+        return Response(endpoints.NormalEndPoint(self,missions,request,missionSerializer,'user_id'),status=status.HTTP_200_OK)

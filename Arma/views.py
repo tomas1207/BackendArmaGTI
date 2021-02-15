@@ -27,6 +27,7 @@ class unconsciousStatus(APIView,LimitOffsetPagination):
         
         serialiedData = pagintes.paginatefunc(self,unconscious,request,unconsciousSerializer,'unit_id')
         kwargs ={"DeadCount" : DeadCounts(self,serialiedData.data)}
+        
         return Response(endpoints.NormalEndPoint(self,unconscious,request,unconsciousSerializer,'unit_id',**kwargs),status=status.HTTP_200_OK)
 
 

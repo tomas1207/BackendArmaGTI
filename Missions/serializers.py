@@ -7,6 +7,3 @@ class missionSerializer(serializers.ModelSerializer):
     class Meta:
         model = missions
         fields ='__all__'
-
-
-

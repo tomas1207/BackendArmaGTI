@@ -7,8 +7,9 @@ class endpoints(LimitOffsetPagination):
     def __init__(self):
         pass
 
-    def NormalEndPoint(self,model,request,serializer,key,**kwargs):
+    def NormalEndPoint(self,model,request,serializer,key = None,**kwargs):
         serialiedData = pagintes.paginatefunc(self,model,request,serializer,key)
+
         #TODO Ver como mandar a func com parametors para os kwargs   
         responseData ={
             'Pagination':{
