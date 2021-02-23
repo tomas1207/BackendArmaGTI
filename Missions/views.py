@@ -10,4 +10,16 @@ from rest_framework.pagination import LimitOffsetPagination
 class missionsStatus(APIView,LimitOffsetPagination):
     permission_classes = [IsAuthenticated]
     def get(self,request,format='json'):
-        return Response(endpoints.NormalEndPoint(self,missions,request,missionSerializer,'user_id'),status=status.HTTP_200_OK)
+        count = missions.objects.filter(campaign=request.GET.get("campaign")).count()
+        args = {"count":count}
+        return Response(endpoints.NormalEndPoint(self,missions,request,missionSerializer,'user_id',**args),status=status.HTTP_200_OK)
+        
+    def post(self,request,format='json'):
+        print(type(request.user))
+        missioncreate = missions(user=request.user)
+        
+        serialedData = missionSerializer(missioncreate,data = request.data)
+        if serialedData.is_valid():
+            serialedData.save()
+            return Response(serialedData.data)
+        return Response(serialedData.errors)

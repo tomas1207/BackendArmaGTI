@@ -26,10 +26,10 @@ class unconsciousStatus(APIView,LimitOffsetPagination):
     def get(self,request,format='json'):
         
         serialiedData = pagintes.paginatefunc(self,unconscious,request,unconsciousSerializer,'unit_id')
-        kwargs ={"DeadCount" : DeadCounts(self,serialiedData.data)}
+        kwargs ={"DeadCount" : DeadCounts(self,serialiedData.data),"uncoiosn":34}
         
         return Response(endpoints.NormalEndPoint(self,unconscious,request,unconsciousSerializer,'unit_id',**kwargs),status=status.HTTP_200_OK)
-
+    
 
 class shootsFiredStatus(APIView,LimitOffsetPagination):
     permission_classes = [IsAuthenticated]

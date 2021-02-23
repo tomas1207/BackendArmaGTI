@@ -24,4 +24,5 @@ urlpatterns = [
     path('api/mission/',include('Missions.urls'),name="Mission"),
     path('api/register/',include('users.urls'),name="Users"),
     path('api/arma/',include('Arma.urls'),name="Arma"),
+    path('api/campaign/',include('campaign.urls'),name="campaign"),
 ]

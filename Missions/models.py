@@ -1,4 +1,5 @@
 from django.db import models
+from campaign.models import campaign
 from django.conf import settings
 from django.utils import timezone
 
@@ -9,6 +10,7 @@ class missions(models.Model):
     missionName = models.TextField()
     briefing = models.TextField()
     solts = models.TextField()
+    campaign = models.ForeignKey(campaign,on_delete=models.CASCADE)
 
 
         
