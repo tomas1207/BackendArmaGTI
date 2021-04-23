@@ -5,13 +5,13 @@ class pagintes(LimitOffsetPagination):
         pass
     
     def paginatefunc(self,model,request,serializer,key = None):
+        print(key)
     
         #TODO: add more abstract to the filters
-        filter_kwargs={}
         if key is not None:
-            filter_kwargs = {key : request.user.steamID}
-
-        rawQuerySet = model.objects.all()
+            rawQuerySet = model.objects.filter(**key)
+        else:
+            rawQuerySet = model.objects.all()
 
         rawQuerySetPaginate = self.paginate_queryset(rawQuerySet,request)
         serialiedData = serializer(rawQuerySetPaginate, many=True)

@@ -19,7 +19,7 @@ class endpoints(LimitOffsetPagination):
             'Data': serialiedData.data,
             'ExtraData': kwargs,
         }
-        
+        print(responseData)
         return responseData
 
    

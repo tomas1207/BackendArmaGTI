@@ -18,24 +18,23 @@ from rest_framework_simplejwt.authentication import JWTAuthentication as jwt
 class MedicStatus(APIView,LimitOffsetPagination):
     permission_classes = [IsAuthenticated]
     def get(self,request,format='json'):
-        return Response(endpoints.NormalEndPoint(self,medic,request,medicSerializer,'healer_id'),status=status.HTTP_200_OK)
+        return Response(endpoints.NormalEndPoint(self,medic,request,medicSerializer,{'healer_id':request.user.steamID,'mission':request.GET.get('mission')}),status=status.HTTP_200_OK)
 
 
 class unconsciousStatus(APIView,LimitOffsetPagination):
     permission_classes = [IsAuthenticated]
     def get(self,request,format='json'):
         
-        serialiedData = pagintes.paginatefunc(self,unconscious,request,unconsciousSerializer,'unit_id')
-        kwargs ={"DeadCount" : DeadCounts(self,serialiedData.data),"uncoiosn":34}
-        
-        return Response(endpoints.NormalEndPoint(self,unconscious,request,unconsciousSerializer,'unit_id',**kwargs),status=status.HTTP_200_OK)
+        serialiedData = pagintes.paginatefunc(self,unconscious,request,unconsciousSerializer,{'unit_id':request.user.id})
+        kwargs ={"DeadCount" : DeadCounts(self,serialiedData.data)}
+        return Response(endpoints.NormalEndPoint(self,unconscious,request,unconsciousSerializer,{'unit_id':request.user.id},**kwargs),status=status.HTTP_200_OK)
     
 
 class shootsFiredStatus(APIView,LimitOffsetPagination):
     permission_classes = [IsAuthenticated]
 
     def get(self,request,format='json'):
-        return Response(endpoints.NormalEndPoint(self,shootsfired,request,shootsFiredSerializer,'unit_id'),status=status.HTTP_200_OK)
+        return Response(endpoints.NormalEndPoint(self,shootsfired,request,shootsFiredSerializer,{'unit_id':request.user.id}),status=status.HTTP_200_OK)
 
         
 def DeadCounts(self,data):

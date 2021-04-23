@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from users.serializers import RegisterNewUser
-from Missions.serializers import missionSerializer
 from .models import *
 from Missions.models import missions
 

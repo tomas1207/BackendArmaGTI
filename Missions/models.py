@@ -10,6 +10,7 @@ class missions(models.Model):
     missionName = models.TextField()
     briefing = models.TextField()
     solts = models.TextField()
+    date = models.DateTimeField(default=timezone.now)
     campaign = models.ForeignKey(campaign,on_delete=models.CASCADE)
 
 
