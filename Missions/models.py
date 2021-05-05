@@ -9,7 +9,8 @@ class missions(models.Model):
     typeofmission = models.TextField()
     missionName = models.TextField()
     briefing = models.TextField()
-    solts = models.TextField()
+    joined = models.ManyToManyField(settings.AUTH_USER_MODEL,related_name="joined")
+    maxsolts = models.TextField()
     date = models.DateTimeField(default=timezone.now)
     campaign = models.ForeignKey(campaign,on_delete=models.CASCADE)
 

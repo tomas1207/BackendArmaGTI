@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
-from rest_framework_simplejwt import views as jwt_views
+from rest_framework_simplejwt import views as jwt_views 
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,4 +27,4 @@ urlpatterns = [
     path('api/register/',include('users.urls'),name="Users"),
     path('api/arma/',include('Arma.urls'),name="Arma"),
     path('api/campaign/',include('campaign.urls'),name="campaign"),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

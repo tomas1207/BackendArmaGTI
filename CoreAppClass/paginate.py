@@ -5,7 +5,6 @@ class pagintes(LimitOffsetPagination):
         pass
     
     def paginatefunc(self,model,request,serializer,key = None):
-        print(key)
     
         #TODO: add more abstract to the filters
         if key is not None:

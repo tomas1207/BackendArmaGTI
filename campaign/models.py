@@ -8,3 +8,4 @@ class campaign(models.Model):
     name = models.TextField()
     ismaincampaing = models.BooleanField()
     status = models.BooleanField()
+    image = models.ImageField(blank=True)
