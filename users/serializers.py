@@ -1,8 +1,6 @@
 from rest_framework import serializers
 from . import models as user
 class RegisterNewUser(serializers.ModelSerializer):
-    email = serializers.EmailField(required=True)
-    user_name = serializers.CharField(required=True)
     password = serializers.CharField(min_length=8, write_only=True)
     
     def create(self, data):
@@ -17,4 +15,3 @@ class RegisterNewUser(serializers.ModelSerializer):
         model = user.NewUser
         fields = ('email','user_name', 'password','steamID','vestName')
         extra_kwargs = {'password':{'write_only':True}}
-        

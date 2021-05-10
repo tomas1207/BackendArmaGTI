@@ -17,6 +17,7 @@ class UserCreator(APIView):
     permission_classes = [AllowAny]
     def post(self,request,format='json'):
         reg_serializer = RegisterNewUser(data=request.data)
+        print(reg_serializer.is_valid())
         if reg_serializer.is_valid():
             newuser = reg_serializer.save()
             if newuser:
