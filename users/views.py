@@ -9,6 +9,7 @@ from django.core import mail
 from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
 from .models import NewUser as nu
+from django.http import HttpResponseRedirect
 import jwt
 from  django.conf import settings
 
@@ -23,14 +24,16 @@ class UserCreator(APIView):
             if newuser:
                 json = reg_serializer.data
                 token = RefreshToken.for_user(newuser)
-                current_site = get_current_site(request).domain
-                relativeLink = reverse('emailVerify')
-                linkforactivate = 'http://'+ current_site+relativeLink+'?token='+str(token.access_token)
-                email = mail.EmailMessage(subject="Activate account",body=linkforactivate,to=[json['email']],from_email='no-reply@gtifenix.com')
-                email.send()
+                self.sendEmail(token,request,json)
                 return Response(json,status=status.HTTP_201_CREATED)
         return Response(reg_serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+    def sendEmail(self, token, request,json):
+        current_site = get_current_site(request).domain
+        relativeLink = reverse('emailVerify')
+        linkforactivate = 'http://'+ current_site+relativeLink+'?token='+str(token.access_token)
+        email = mail.EmailMessage(subject="Activate account GTIFenix",body=linkforactivate,to=[json['email']],from_email='no-reply@gtifenix.com')
 
+        return email.send()
 class Logout(APIView):
     permission_classes=[AllowAny]
     def post(self,request):
@@ -50,7 +53,7 @@ class VerifyEmail(APIView):
             user.is_active = True
             user.save()
                         
-            return Response('Done', status=status.HTTP_200_OK)
+            return HttpResponseRedirect('http://localhost:4200/home')
         except jwt.ExpiredSignatureError as identifier:
             pass
         
