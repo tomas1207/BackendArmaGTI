@@ -31,6 +31,14 @@ class UserCreator(APIView):
                 return Response(json,status=status.HTTP_201_CREATED)
         return Response(reg_serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 
+class Logout(APIView):
+    permission_classes=[AllowAny]
+    def post(self,request):
+        print(request.POST.get("refresh"))
+        Refresh_token = request.POST.get("refresh")
+        token = RefreshToken(Refresh_token)
+        token.blacklist()
+        return Response("Successful Logout", status=status.HTTP_200_OK)
 
 class VerifyEmail(APIView):
     def get(self,request):
