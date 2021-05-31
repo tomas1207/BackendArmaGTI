@@ -31,4 +31,6 @@ class shootsFiredSerializer(serializers.ModelSerializer):
     class Meta:
         model = shootsfired
         fields ='__all__'
+
+        
         

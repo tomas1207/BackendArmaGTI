@@ -11,6 +11,8 @@ from rest_framework.permissions import *
 from rest_framework.pagination import LimitOffsetPagination
 from .models import medic
 from .serializers import *
+from users.models import NewUser
+from users.serializers import RegisterNewUser
 from django.db.models import Count
 
 from rest_framework_simplejwt.authentication import JWTAuthentication as jwt
@@ -67,7 +69,15 @@ def DeadCounts(self,data):
     return deadsCounts
 
 def triggerHappy(self,model,fieldname):
+    data = shootsfired.objects.values('unit').annotate(triggerHappy=Count('unit'))
 
-    return model.objects.values("name").order_by('unit').annotate(the_count=Count(fieldname))
+    
+    for id in data:
+        userdata = NewUser.objects.filter(steamID=int(id['unit'])).first()
+        print(userdata.user_name)
+        serialDatauser = RegisterNewUser(userdata,many=False)
+        id['unit'] = serialDatauser.data
+        
+    return data
 
         
