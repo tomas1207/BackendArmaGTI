@@ -12,6 +12,7 @@ class missions(models.Model):
     joined = models.ManyToManyField(settings.AUTH_USER_MODEL,related_name="joined")
     maxsolts = models.TextField()
     date = models.DateTimeField(default=timezone.now)
+    isfinish = models.BooleanField(default=False)
     campaign = models.ForeignKey(campaign,on_delete=models.CASCADE)
 
 

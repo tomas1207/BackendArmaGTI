@@ -13,5 +13,5 @@ class RegisterNewUser(serializers.ModelSerializer):
 
     class Meta:
         model = user.NewUser
-        fields = ('email','user_name', 'password','steamID','vestName')
+        fields = ('email','id','user_name', 'password','steamID','vestName')
         extra_kwargs = {'password':{'write_only':True}}

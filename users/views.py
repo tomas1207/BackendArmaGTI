@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.exceptions import AuthenticationFailed
 from .serializers import RegisterNewUser
 from django.core import mail
 from django.contrib.sites.shortcuts import get_current_site
@@ -34,6 +35,26 @@ class UserCreator(APIView):
         email = mail.EmailMessage(subject="Activate account GTIFenix",body=linkforactivate,to=[json['email']],from_email='no-reply@gtifenix.com')
 
         return email.send()
+
+class login(APIView):
+    permission_classes = [AllowAny]
+    def post(self,request,format='json'):
+        email = request.data["email"]
+        password = request.data["password"]
+        print(password,email)
+        user = nu.objects.filter(email=email).first()
+        if not user:
+            raise  AuthenticationFailed("user not found")
+        if user.check_password(password):
+            refresh = RefreshToken.for_user(user)
+            jsonjwt = {
+                'userdata': RegisterNewUser(user).data,
+                'refresh': str(refresh),
+                'access': str(refresh.access_token)
+            }
+            return Response(jsonjwt, status=status.HTTP_200_OK)
+        
+      
 class Logout(APIView):
     permission_classes=[AllowAny]
     def post(self,request):

@@ -23,14 +23,22 @@ class missionsStatus(APIView,LimitOffsetPagination):
             serialedData.save()
             return Response(serialedData.data)
         return Response(serialedData.errors)
-    
+
+    def put(self, request,format='json'):
+        print(request.data)
+        missionid = request.data["id"]
+        print(missionid)
+        mission = missions.objects.filter(id=missionid).first()
+        mission.isfinish = True
+        mission.save()
+        serialedData = missionSerializer(mission)
+        return Response(serialedData.data)
 class missionregistion(APIView,LimitOffsetPagination):
     permission_classes=[IsAuthenticated]
     def post(self,request,format='json'):
         user = request.user.id
         missionid = request.data['mission']
         missionObj = missions.objects.get(id=missionid)
-        print(missionObj.joined.count())
         if missionObj.maxsolts != missionObj.joined.count():
 
             missionObj.joined.add(user)
