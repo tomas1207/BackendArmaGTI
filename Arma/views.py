@@ -11,6 +11,8 @@ from rest_framework.permissions import *
 from rest_framework.pagination import LimitOffsetPagination
 from .models import medic
 from .serializers import *
+from django.db.models import Count
+
 from rest_framework_simplejwt.authentication import JWTAuthentication as jwt
 
 # Create your views here.
@@ -26,7 +28,7 @@ class unconsciousStatus(APIView,LimitOffsetPagination):
     def get(self,request,format='json'):
         
         serialiedData = pagintes.paginatefunc(self,unconscious,request,unconsciousSerializer,{'unit_id':request.user.steamID})
-        kwargs ={"DeadCount" : DeadCounts(self,serialiedData.data)}
+        kwargs ={"DeadCount" : triggerHappy(self,serialiedData.data)}
         return Response(endpoints.NormalEndPoint(self,unconscious,request,unconsciousSerializer,{'unit_id':request.user.id},**kwargs),status=status.HTTP_200_OK)
     
 
@@ -35,7 +37,11 @@ class shootsFiredStatus(APIView,LimitOffsetPagination):
 
     def get(self,request,format='json'):
         print(request.GET.get('mission'))
-        return Response(endpoints.NormalEndPoint(self,shootsfired,request,shootsFiredSerializer,{'mission':request.GET.get('mission')}),status=status.HTTP_200_OK)
+         
+        serialiedData = pagintes.paginatefunc(self,shootsfired,request,shootsFiredSerializer,{'unit_id':request.user.steamID})
+        kwargs ={"triggerHappy" : triggerHappy(self,shootsfired,'unit')}
+        print(kwargs["triggerHappy"])
+        return Response(endpoints.NormalEndPoint(self,shootsfired,request,shootsFiredSerializer,{'mission':request.GET.get('mission')},**kwargs),status=status.HTTP_200_OK)
 
         
 def DeadCounts(self,data):
@@ -59,5 +65,9 @@ def DeadCounts(self,data):
         deadsCounts  += 1
 
     return deadsCounts
+
+def triggerHappy(self,model,fieldname):
+
+    return model.objects.values("name").order_by('unit').annotate(the_count=Count(fieldname))
 
         

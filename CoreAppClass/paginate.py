@@ -4,11 +4,13 @@ class pagintes(LimitOffsetPagination):
     def __init__(self):
         pass
     
-    def paginatefunc(self,model,request,serializer,filterType = "all",filter = None,fieldName= None):
-        possibleFilters={"count",model.objects.order_by(key).count(),"filter":model.objects.filter(**key),"all":model.objects.all()}
+    def paginatefunc(self,model,request,serializer,key = None):
+    
         #TODO: add more abstract to the filters
-        
-        rawQuerySet = self.possibleFilters[filterType]
+        if key is not None:
+            rawQuerySet = model.objects.filter(**key)
+        else:
+            rawQuerySet = model.objects.all()
 
         rawQuerySetPaginate = self.paginate_queryset(rawQuerySet,request)
         serialiedData = serializer(rawQuerySetPaginate, many=True)
