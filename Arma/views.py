@@ -23,10 +23,10 @@ class MedicStatus(APIView,LimitOffsetPagination):
     permission_classes = [IsAuthenticated]
     def get(self,request,format='json'):
         kwargs={
-            "mostusedItem":Extradata(self,medic,'typeOfHeal','healer_id'),
-            "bestMedic": Extradata(self,medic,'healer_id','healer_id'),
-            "holey": Extradata(self,medic,'healed_id','healed_id'),
-            "mostShootZone": Extradata(self,medic,'hitLocation','healed_id')
+            "mostusedItem":Extradata(self,medic,'typeOfHeal',request.GET.get('mission'),'healer_id'),
+            "bestMedic": Extradata(self,medic,'healer_id',request.GET.get('mission'),'healer_id'),
+            "holey": Extradata(self,medic,'healed_id',request.GET.get('mission'),'healed_id'),
+            "mostShootZone": Extradata(self,medic,'hitLocation',request.GET.get('mission'),'healed_id')
         }
         return Response(endpoints.NormalEndPoint(self,medic,request,medicSerializer,{'mission':request.GET.get('mission')},**kwargs),status=status.HTTP_200_OK)
 
@@ -38,7 +38,7 @@ class unconsciousStatus(APIView,LimitOffsetPagination):
         serialiedData = pagintes.paginatefunc(self,unconscious,request,unconsciousSerializer,{'mission':request.GET.get('mission')})
         kwargs ={
             "DeadCount" : DeadCounts(self,serialiedData.data),
-            "TheGroundHugger": Extradata(self,unconscious,'unit_id','unit_id')
+            "TheGroundHugger": Extradata(self,unconscious,'unit_id',request.GET.get('mission'),'unit_id')
         }
         return Response(endpoints.NormalEndPoint(self,unconscious,request,unconsciousSerializer,{'mission':request.GET.get('mission')},**kwargs),status=status.HTTP_200_OK)
     
@@ -47,10 +47,10 @@ class shootsFiredStatus(APIView,LimitOffsetPagination):
 
     def get(self,request,format='json'):
         kwargs ={
-            "TriggerHappy" : Extradata(self,shootsfired,'unit','unit'),
-            "mostWeaponUsed":Extradata(self,shootsfired,'weapon','unit'),
-            "mostUsedMode":Extradata(self,shootsfired,'mode','unit'),
-            "AmmoDispenser":Extradata(self,shootsfired,'ammo','unit')
+            "TriggerHappy" : Extradata(self,shootsfired,'unit',request.GET.get('mission'),'unit'),
+            "mostWeaponUsed":Extradata(self,shootsfired,'weapon',request.GET.get('mission'),'unit'),
+            "mostUsedMode":Extradata(self,shootsfired,'mode',request.GET.get('mission'),'unit'),
+            "AmmoDispenser":Extradata(self,shootsfired,'ammo',request.GET.get('mission'),'unit')
             }
         return Response(endpoints.NormalEndPoint(self,shootsfired,request,shootsFiredSerializer,{'mission':request.GET.get('mission')},**kwargs),status=status.HTTP_200_OK)
 
@@ -77,8 +77,8 @@ def DeadCounts(self,data):
 
     return deadsCounts
 
-def Extradata(self,model,fieldname,unitName=""):
-    data = model.objects.values(fieldname,unitName).annotate(count=Count(fieldname))
+def Extradata(self,model,fieldname,mission,unitName=""):
+    data = model.objects.filter(mission=mission).values(fieldname,unitName).annotate(count=Count(fieldname))
     for id in data:
         userdata = NewUser.objects.filter(steamID=int(id[unitName])).first()
         serialDatauser = RegisterNewUser(userdata,many=False)
