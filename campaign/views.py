@@ -16,7 +16,6 @@ class Campaign(APIView,LimitOffsetPagination):
         return Response(endpoints.NormalEndPoint(self,campaign,request,campaignSerializer,{'user_id':request.user.id}),status=status.HTTP_200_OK)
         
     def post(self,request,format='json'):
-        print(type(request.user))
         missioncreate = campaign(user=request.user)
         
         serialedData = campaignSerializer(missioncreate,data = request.data)

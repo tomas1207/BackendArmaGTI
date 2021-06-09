@@ -9,4 +9,4 @@ class campaign(models.Model):
     ismaincampaing = models.BooleanField()
     description = models.TextField(blank=True)
     status = models.BooleanField()
-    image = models.ImageField(blank=True)
+    image = models.ImageField(upload_to='images/',default='Fenix_v2.png')

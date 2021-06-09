@@ -53,7 +53,7 @@ class login(APIView):
                 'access': str(refresh.access_token)
             }
             return Response(jsonjwt, status=status.HTTP_200_OK)
-        
+        return Response({"msg":"usernotfound"}, status=status.HTTP_200_OK)
       
 class Logout(APIView):
     permission_classes=[AllowAny]
