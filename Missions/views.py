@@ -15,7 +15,7 @@ import json
 class missionsStatus(APIView,LimitOffsetPagination):
     permission_classes = [IsAuthenticated]
     def get(self,request,format='json'):
-        return Response(endpoints.NormalEndPoint(self,missions,request,missionSerializer,{'user_id':request.user.id,'campaign':request.GET.get('campaign')}),status=status.HTTP_200_OK)
+        return Response(endpoints.NormalEndPoint(self,missions,request,missionSerializer,{'campaign':request.GET.get('campaign')}),status=status.HTTP_200_OK)
         
     def post(self,request,format='json'):
         mycampaign = campaign.objects.filter(id=request.data['campaign']).first()
@@ -44,6 +44,7 @@ class missionDetails(APIView,LimitOffsetPagination):
 class missionregistion(APIView,LimitOffsetPagination):
     permission_classes=[IsAuthenticated]
     def post(self,request,format='json'):
+        print(request.data)
         user = request.user.id
         missionid = request.data['mission']
         missionObj = missions.objects.get(id=missionid)

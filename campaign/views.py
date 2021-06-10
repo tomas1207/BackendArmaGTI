@@ -13,7 +13,7 @@ from rest_framework.pagination import LimitOffsetPagination
 class Campaign(APIView,LimitOffsetPagination):
     permission_classes = [IsAuthenticated]
     def get(self,request,format='json'):
-        return Response(endpoints.NormalEndPoint(self,campaign,request,campaignSerializer,{'user_id':request.user.id}),status=status.HTTP_200_OK)
+        return Response(endpoints.NormalEndPoint(self,campaign,request,campaignSerializer),status=status.HTTP_200_OK)
         
     def post(self,request,format='json'):
         missioncreate = campaign(user=request.user)

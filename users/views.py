@@ -43,6 +43,7 @@ class login(APIView):
         password = request.data["password"]
         print(password,email)
         user = nu.objects.filter(email=email).first()
+        print(user)
         if not user:
             raise  AuthenticationFailed("user not found")
         if user.check_password(password):
@@ -53,7 +54,7 @@ class login(APIView):
                 'access': str(refresh.access_token)
             }
             return Response(jsonjwt, status=status.HTTP_200_OK)
-        return Response({"msg":"usernotfound"}, status=status.HTTP_200_OK)
+        return AuthenticationFailed({"msg":"usernotfound"})
       
 class Logout(APIView):
     permission_classes=[AllowAny]
