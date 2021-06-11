@@ -24,12 +24,18 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'uxr4reiojf#)drl9^t4bfau@$q3y$*skx85i)7(f9ut26^9so9'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG')
 
-ALLOWED_HOSTS = ['127.0.0.1','localhost','192.168.1.66']
+
+ALLOWED_HOSTS = ['www.gtifenix.com','django','127.0.0.1',]
+SECURE_HSTS_SECONDS = True
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = False
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
 
 
 # Application definition
@@ -94,9 +100,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', 
         'NAME': 'arma',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
+        'USER': 'fenix',
+        'PASSWORD': '@fenix2019',
+        'HOST': 'db',   # Or an IP Address that your DB is hosted on
         'PORT': '3306',
     }
 }
@@ -186,9 +192,7 @@ SIMPLE_JWT = {
 
 AUTH_USER_MODEL = "users.NewUser"
 
-#smtp.gtifenix.com 
-#noreaply@gtifeniox.com
-#gtifenix2019
+
 EMAIL_USE_TSL=False
 EMAIL_HOST = 'smtp.gtifenix.com'
 EMAIL_HOST_USER='noreaply@gtifenix.com'

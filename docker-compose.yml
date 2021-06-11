@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+  db:
+    image: mysql:5.7
+    ports: ["3306:3306"]
+    environment:
+      MYSQL_DATABASE: "arma"
+      MYSQL_USER: "fenix"
+      MYSQL_PASSWORD: "@fenix2019"
+      MYSQL_ROOT_PASSWORD: "@fenix2019"
+  django_gunicorn:
+    ports: ["4200:4200"]
+    build:
+      context: .
+    env_file:
+      - .env
+    volumes:
+      - .:/django
+    depends_on:
+      - db
+  nginx:
+    build: ./nginx
+    ports: ["80:80"]
+    depends_on:
+      - django_gunicorn
+volumes:
+  static:
