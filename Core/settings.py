@@ -30,12 +30,8 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = os.getenv('DEBUG')
 
 
-ALLOWED_HOSTS = ['www.gtifenix.com','django','127.0.0.1',]
-SECURE_HSTS_SECONDS = True
-SECURE_SSL_REDIRECT = True
-SESSION_COOKIE_SECURE = False
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_HSTS_PRELOAD = True
+ALLOWED_HOSTS = ['www.gtifenix.com','django','127.0.0.1','localhost']
+
 
 
 # Application definition
