@@ -13,7 +13,8 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import os
 from datetime import timedelta
 from . import settings
-
+from dotenv import load_dotenv
+load_dotenv()
 
 CORS_ORIGIN_ALLOW_ALL = True
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)

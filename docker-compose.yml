@@ -21,8 +21,19 @@ services:
       - db
   nginx:
     build: ./nginx
-    ports: ["80:80"]
+    ports: ["80:80", "443:443"]
+    command:
+      - --net=host
     depends_on:
       - django_gunicorn
+  letsencrypt:
+    image: blacklabelops/letsencrypt
+    ports: ["81:80", "444:443"]
+    volumes:
+      - letsencrypt_certificates:/etc/letsencrypt
+    environment:
+      LETSENCRYPT_EMAIL: tomasfernandes98@gmail.com
+      LETSENCRYPT_DOMAIN1: gtifenix.ddns.net
 volumes:
   static:
+  letsencrypt_certificates:
