@@ -31,7 +31,7 @@ class UserCreator(APIView):
     def sendEmail(self, token, request,json):
         current_site = get_current_site(request).domain
         relativeLink = reverse('emailVerify')
-        linkforactivate = 'http://'+ current_site+relativeLink+'?token='+str(token.access_token)
+        linkforactivate = 'https://gtifenix.ddns.net' + relativeLink+'?token='+str(token.access_token)
         email = mail.EmailMessage(subject="Activate account GTIFenix",body=linkforactivate,to=[json['email']],from_email='no-reply@gtifenix.com')
 
         return email.send()
@@ -75,7 +75,7 @@ class VerifyEmail(APIView):
             user.is_active = True
             user.save()
                         
-            return HttpResponseRedirect('http://localhost:4200/home')
+            return HttpResponseRedirect('https://gtifenix.ddns.net/home')
         except jwt.ExpiredSignatureError as identifier:
             pass
         
